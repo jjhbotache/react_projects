@@ -1,0 +1,9 @@
+# Ignore heavy folders of React project
+node_modules/
+build/
+dist/
+# Ignore environment variables
+.env*
+
+# Ignore log files
+*.log

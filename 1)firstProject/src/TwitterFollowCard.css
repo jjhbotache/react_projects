@@ -1,0 +1,45 @@
+article.tw {
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font-size: .8rem;
+  justify-content: space-between;
+  min-width: 17em;
+}
+
+article.tw header {
+display: flex;
+align-items: center;
+gap: 4px
+}
+article.tw header div {
+display: flex;
+align-items: center;
+display: flex;
+flex-direction: column;
+color: #fff;
+font-size: .8rem;
+}
+article.tw header span {
+opacity: .6;
+}
+article.tw img {
+width: 48px;
+height: 48px;
+border-radius: 1000px;
+}
+article.tw button.tw-btn-follow {
+  margin-left: 16px;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-weight: bold;
+}
+article.tw button.tw-btn-following {
+  background: rgb(255, 187, 187);
+  margin-left: 16px;
+  border: 0;
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-weight: bold;
+}
