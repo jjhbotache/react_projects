@@ -23,7 +23,7 @@ Puedes sumar ideas o propuestas a este pequeño proyecto, para la UI puedes busc
 |  ✅  | second page showing details |
 |  ✅  | searchbar |
 |  ✅  | searchbar debounce function |
-|  ❌  | searchbar predictive |
+|  ✅  | searchbar predictive |
 |  ❌  | use styled components |
 |  ❌  | responsive design |
 

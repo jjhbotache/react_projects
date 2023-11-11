@@ -1,4 +1,8 @@
 html,body{
-    background: #222;
+    background: none;
     color: #fff;
+}
+*::-webkit-scrollbar {
+    width: 0;
+    height: 0;
 }

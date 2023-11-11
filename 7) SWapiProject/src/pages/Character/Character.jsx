@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { json } from "react-router-dom";
+import { getImg } from "../../functions/functions";
 
 export default function Character() {
     const [characterInfo, setCharacterInfo] = useState();
     const [loading, setLoading] = useState(false);
+    const [imgUrl, setImgUrl] = useState("");
 
     useEffect(()=>{
         if(localStorage.getItem("characterInfo")){
             setCharacterInfo(JSON.parse(localStorage.getItem("characterInfo")))
-            localStorage.removeItem("characterInfo");
         }else{
             setLoading(true);
             // get the parameter from the url with searchParams
@@ -24,10 +24,17 @@ export default function Character() {
         }
     },[])
 
+    useEffect(()=>{
+      characterInfo && getImg(characterInfo.name).then((url)=>setImgUrl(url))
+    },[characterInfo])
+
     return(
         loading? <div>Loading...</div>:(
         <>
         <h1>Character</h1>
+        {imgUrl && (
+          <img src={imgUrl} style={{maxWidth:"100vw"}} />
+        )}
         {characterInfo && (
         <div>
           <h2>{characterInfo.name}</h2>

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-
+import SWcard from "./Components/SWcard/SWcard";
+import { StyledSection } from "./customStyles";
+  
 export default function App() {
   const [nextUrl, setNextUrl] = useState("");
   const [cToRender, setCToRender] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchBar, setSearchBar] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
 
   useEffect(() => {
     fetch("https://swapi.dev/api/people")
@@ -15,6 +18,14 @@ export default function App() {
       })
       .catch((error) => console.error("Error fetching initial data:", error))
       .finally(() => setIsLoading(false));
+    let interval;
+    if(JSON.parse(localStorage.getItem("charactersName")).charactersNames.length <= 82 ){
+    interval = setInterval(() => {
+      setSuggestions(JSON.parse(localStorage.getItem("charactersName")).charactersNames);
+    }, 10000);
+    }
+    
+    return () => clearInterval(interval);
   }, []);
 
   useEffect(() => {
@@ -31,7 +42,7 @@ export default function App() {
     }
 
     function handleScroll(e) {
-      if(window.innerHeight + document.documentElement.scrollTop > document.documentElement.offsetHeight - 150 && !isLoading)
+      if(window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 150 && !isLoading)
       {
         newFetch();
         console.log("fetching new data");
@@ -50,6 +61,8 @@ export default function App() {
 
   useEffect(()=>{
     function search(){
+      if(isLoading) return;
+      console.log("searching");
       setIsLoading(true);
       fetch(`https://swapi.dev/api/people${searchBar?`/?search=${searchBar}`:""}`)
       .then((e) => e.json())
@@ -57,7 +70,6 @@ export default function App() {
         setNextUrl(res.next);
         setCToRender(res.results);
       })
-      .catch((error) => console.error("Error fetching additional data:", error))
       .finally(() => setIsLoading(false));
     }
 
@@ -66,24 +78,34 @@ export default function App() {
     return () => clearTimeout(debounce);
   },[searchBar])
 
-
+  
+  
 
   return (
-    <div className="App">
-      <h1>React App</h1>
-      <input
-        type="text"
-        value={searchBar}
-        onChange={(e) => setSearchBar(e.target.value)}
-      />
-      <div>
-        {cToRender.map((c) => (
-          <div style={{ height: "10vh" }} key={c.url}>
-            <a onClick={e=>(onSeeDatils(e,c))}>{c.name}</a>
-          </div>
-        ))}
-        {isLoading && <p>Loading...</p>}
+    <>
+      <h1>STAR WARS</h1>
+      
+      
+      <div style={{position:"relative"}}>
+        <input list="suggestions" type="text" value={searchBar} onChange={(e) => setSearchBar(e.target.value.trim())} />
+        {
+          suggestions && (
+            <datalist id="suggestions">
+              {suggestions.map((s) => (
+                <option key={s}>{s.toLowerCase()}</option>
+                ))}
+            </datalist>
+          )
+        }
       </div>
-    </div>
+      <div>
+        <StyledSection>
+          {cToRender.map((c) => <SWcard key={c.url} character={c} onSeeDatils={onSeeDatils}/>)}
+        </StyledSection>
+        {isLoading && <p className="text-center">Loading...</p>}
+      </div>
+    </>
   );
+  
+  
 }
