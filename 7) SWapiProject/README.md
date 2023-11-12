@@ -24,8 +24,8 @@ Puedes sumar ideas o propuestas a este pequeño proyecto, para la UI puedes busc
 |  ✅  | searchbar |
 |  ✅  | searchbar debounce function |
 |  ✅  | searchbar predictive |
-|  ❌  | use styled components |
-|  ❌  | responsive design |
+|  ✅  | use styled components |
+|  ✅  | responsive design |
 
 
 - using https://swapi.dev/api/
