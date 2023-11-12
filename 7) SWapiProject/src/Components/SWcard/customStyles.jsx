@@ -7,7 +7,7 @@ export const StyledArticle = styled.article`
     transition: all 0.2s ease-in-out;
     background: rgba(0, 0, 0, 0.6);
     padding: .5rem 1rem;
-    border-radius: 10%;
+    border-radius: 1rem;
     &:hover {
         transform: scale(1.03);
     }

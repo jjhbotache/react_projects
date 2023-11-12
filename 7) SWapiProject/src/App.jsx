@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import SWcard from "./Components/SWcard/SWcard";
 import { StyledSection } from "./customStyles";
+import Search from "./Components/Search/Search";
+import InfinySpinner from "./Components/InfinySpinner/InfinySpinner";
   
 export default function App() {
   const [nextUrl, setNextUrl] = useState("");
@@ -8,6 +10,7 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchBar, setSearchBar] = useState("");
   const [suggestions, setSuggestions] = useState([]);
+  const [above, setAbove] = useState((document.documentElement.scrollTop > 15).toString() || "false");
 
   useEffect(() => {
     fetch("https://swapi.dev/api/people")
@@ -20,6 +23,7 @@ export default function App() {
       .finally(() => setIsLoading(false));
     let interval;
     if(JSON.parse(localStorage.getItem("charactersName")).charactersNames.length <= 82 ){
+    setSuggestions(JSON.parse(localStorage.getItem("charactersName")).charactersNames);
     interval = setInterval(() => {
       setSuggestions(JSON.parse(localStorage.getItem("charactersName")).charactersNames);
     }, 10000);
@@ -29,6 +33,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    console.log(cToRender);
     function newFetch() {
       setIsLoading(true);
       fetch(nextUrl)
@@ -42,6 +47,8 @@ export default function App() {
     }
 
     function handleScroll(e) {
+      // console.log(document.documentElement.scrollTop);
+      setAbove((document.documentElement.scrollTop > 15).toString());
       if(window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 150 && !isLoading)
       {
         newFetch();
@@ -76,33 +83,19 @@ export default function App() {
     const debounce = setTimeout(search, 500);
 
     return () => clearTimeout(debounce);
-  },[searchBar])
+  },[searchBar])  
 
   
   
 
   return (
     <>
-      <h1>STAR WARS</h1>
-      
-      
-      <div style={{position:"relative"}}>
-        <input list="suggestions" type="text" value={searchBar} onChange={(e) => setSearchBar(e.target.value.trim())} />
-        {
-          suggestions && (
-            <datalist id="suggestions">
-              {suggestions.map((s) => (
-                <option key={s}>{s.toLowerCase()}</option>
-                ))}
-            </datalist>
-          )
-        }
-      </div>
+      <Search value={searchBar} onChange={(e) => setSearchBar(e.target.value)} suggestions={suggestions} above={above}/>
       <div>
         <StyledSection>
           {cToRender.map((c) => <SWcard key={c.url} character={c} onSeeDatils={onSeeDatils}/>)}
         </StyledSection>
-        {isLoading && <p className="text-center">Loading...</p>}
+        {isLoading && <InfinySpinner/>}
       </div>
     </>
   );

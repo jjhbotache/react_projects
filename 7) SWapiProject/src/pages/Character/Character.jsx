@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getImg } from "../../functions/functions";
+import { CharacterContainer, CharacterImg } from "./customStyles.jsx";
 
 export default function Character() {
     const [characterInfo, setCharacterInfo] = useState();
@@ -10,17 +11,7 @@ export default function Character() {
         if(localStorage.getItem("characterInfo")){
             setCharacterInfo(JSON.parse(localStorage.getItem("characterInfo")))
         }else{
-            setLoading(true);
-            // get the parameter from the url with searchParams
-            const url = new URLSearchParams(window.location.search).get("url");
-            fetch(url)
-            .then((response)=>response.json())
-            .then((data)=>{
-                setCharacterInfo(data);
-                localStorage.setItem("characterInfo", JSON.stringify(data));
-            })
-            .catch((error)=>console.log(error))
-            .finally(()=>setLoading(false));
+          window.location.href = "/"
         }
     },[])
 
@@ -29,12 +20,8 @@ export default function Character() {
     },[characterInfo])
 
     return(
-        loading? <div>Loading...</div>:(
-        <>
-        <h1>Character</h1>
-        {imgUrl && (
-          <img src={imgUrl} style={{maxWidth:"100vw"}} />
-        )}
+      <CharacterContainer>
+        <CharacterImg src={imgUrl} />
         {characterInfo && (
         <div>
           <h2>{characterInfo.name}</h2>
@@ -65,8 +52,8 @@ export default function Character() {
             ))}
           </ul>
         </div>
-      )}
-        </>
-        )
+        )}
+      </CharacterContainer>
     )
+
 };
