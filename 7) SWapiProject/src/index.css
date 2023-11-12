@@ -6,3 +6,8 @@ html,body{
     width: 0;
     height: 0;
 }
+
+i{
+    position: grid;
+    place-items: center;
+}

@@ -45,11 +45,12 @@ export default function App() {
         .catch((error) => console.error("Error fetching additional data:", error))
         .finally(() => setIsLoading(false));
     }
-
+    handleScroll();
     function handleScroll(e) {
-      // console.log(document.documentElement.scrollTop);
+      console.log(document.documentElement.scrollTop);
+      
       setAbove((document.documentElement.scrollTop > 15).toString());
-      if(window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 150 && !isLoading)
+      if(window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 300 && !isLoading)
       {
         newFetch();
         console.log("fetching new data");
