@@ -12,14 +12,6 @@ import { GlobalStyles } from './mainCustomStyles.jsx';
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/character",
-    element: <Character/>,
-  },
-  {
     path: "*",
     element: <h1>Hola?</h1>,
   }
