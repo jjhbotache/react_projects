@@ -4,13 +4,14 @@ import App from './App.jsx'
 import './index.css'
 import {
   createBrowserRouter,
+  createHashRouter,
   RouterProvider,
 } from "react-router-dom";
 import Character from './pages/Character/Character.jsx'
 
 import { GlobalStyles } from './mainCustomStyles.jsx';
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: "/",
     element: <App />,
