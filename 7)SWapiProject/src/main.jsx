@@ -21,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <App />,
+    element: <h1>Hola?</h1>,
   }
   
 ]);
