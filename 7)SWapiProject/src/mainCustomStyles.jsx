@@ -24,10 +24,20 @@ export const GlobalStyles = createGlobalStyle`
     animation: ${bg_moving} 30s linear infinite;
     font-family: "Roboto", sans-serif;
     letter-spacing: 0.2rem;
+    color: #fff;
   }
   h1, h2, h3, h4, h5, h6{
     font-family: "SWFont";
     text-transform: lowercase;
   }
-  
+  *::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+  }
+
+  i{
+      position: grid;
+      place-items: center;
+  }
+
 `;
