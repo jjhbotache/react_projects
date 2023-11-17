@@ -4,7 +4,6 @@ import { CharacterContainer, CharacterImg, LinksContainer, SpecialLink } from ".
 
 export default function Character() {
     const [characterInfo, setCharacterInfo] = useState();
-    const [loading, setLoading] = useState(false);
     const [imgUrl, setImgUrl] = useState("");
 
     function getNewImg(){

@@ -48,7 +48,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "character/:url?",
+    path: "/character",
     element: <Character/>,
   },
   

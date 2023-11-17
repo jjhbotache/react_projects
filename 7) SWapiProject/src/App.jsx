@@ -3,6 +3,8 @@ import SWcard from "./Components/SWcard/SWcard";
 import { StyledSection } from "./customStyles";
 import Search from "./Components/Search/Search";
 import InfinySpinner from "./Components/InfinySpinner/InfinySpinner";
+import { useNavigate } from "react-router-dom";
+
   
 export default function App() {
   const [nextUrl, setNextUrl] = useState("");
@@ -11,6 +13,7 @@ export default function App() {
   const [searchBar, setSearchBar] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [above, setAbove] = useState((document.documentElement.scrollTop > 15).toString() || "false");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://swapi.dev/api/people")
@@ -64,7 +67,8 @@ export default function App() {
   function onSeeDatils(event,character) {
     event.preventDefault();
     localStorage.setItem("characterInfo", JSON.stringify(character));
-    window.location.assign("/character");
+    // window.location.assign("/character");
+    navigate("/character");
   }
 
   useEffect(()=>{
