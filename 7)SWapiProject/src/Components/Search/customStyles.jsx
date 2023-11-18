@@ -5,7 +5,7 @@ export const SearchContainer = styled.div`
     top: 0;
     
     ${
-        (props)=>(props.above=="true"
+        (props)=>(props.$above=="true"
         ?(`
         background: rgba(0, 1, 27, 0.8);
         border-bottom: 1px solid #ffff00;

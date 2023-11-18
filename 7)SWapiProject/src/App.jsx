@@ -6,35 +6,25 @@ import InfinySpinner from "./Components/InfinySpinner/InfinySpinner";
 import { useNavigate } from "react-router-dom";
 import useSWCharacters from "./Hooks/useSWCharacters";
 import useSearch from "./Hooks/useSearch";
+import useAbove from "./Hooks/useAbove";
+import useSuggestions from "./Hooks/useSuggestions";
 
   
 export default function App() {
   const [cToRender, setCToRender] = useState([]);
-  const [suggestions, setSuggestions] = useState([]);
-  const [above, setAbove] = useState((document.documentElement.scrollTop > 15).toString() || "false");
+  const { isAbove, checkAbove } = useAbove();
   const { loading:searchLoading, searchText, setSearchText, results, search } = useSearch();
+  const { loading, characters, loadCharacters } = useSWCharacters();
+  const  { suggestions } = useSuggestions();
   
   const navigate = useNavigate();
 
-  const { loading, characters, loadCharacters } = useSWCharacters();
+  
 
-  console.log("loading: "+loading);
   
 
   useEffect(() => {
     loadCharacters();
-
-    
-    
-    let interval;
-    if(JSON.parse(localStorage.getItem("charactersName")).charactersNames.length <= 82 ){
-    setSuggestions(JSON.parse(localStorage.getItem("charactersName")).charactersNames);
-    interval = setInterval(() => {
-      setSuggestions(JSON.parse(localStorage.getItem("charactersName")).charactersNames);
-    }, 10000);
-    }
-
-    return () => {clearInterval(interval)}
   }, []);
 
 
@@ -53,17 +43,18 @@ export default function App() {
     );
   }, [characters, results]);
 
+  function handleScroll() {
+    checkAbove();
+
+    const userViewLocationPx = window.innerHeight + document.documentElement.scrollTop;
+    const contentHeight = document.documentElement.offsetHeight;
+    const anyLoading = [loading,searchLoading].some((l) => l);
+
+    userViewLocationPx >= contentHeight - 300 && !anyLoading
+    &&( searchText ? search(true) : loadCharacters() )
+  }
+
   useEffect(() => {
-    function handleScroll() {
-      setAbove((document.documentElement.scrollTop > 15).toString());
-      if(window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 300 &&
-        (!loading && !searchLoading)
-      ){
-        searchText
-        ?search(true)
-        :loadCharacters();
-      }
-    }
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [loading, searchLoading, searchText]);
@@ -72,7 +63,7 @@ export default function App() {
   
   return (
     <>
-      <Search value={searchText} onChange={(e) => setSearchText(e.target.value)} suggestions={suggestions} above={above}/>
+      <Search value={searchText} onChange={(e) => setSearchText(e.target.value)} suggestions={suggestions} above={isAbove}/>
       <div>
         <StyledSection>
           {cToRender?.map((c) => <SWcard key={c.url} character={c} onSeeDatils={onSeeDatils}/>)}

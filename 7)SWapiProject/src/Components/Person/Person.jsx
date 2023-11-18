@@ -9,8 +9,8 @@ export default function Person({character}) {
         skincolor = skincolor[skincolor.length - 1].trim();
     }
     return(
-        <StyledBox gender={gender}>
-            <StyledPerson skincolor={skincolor} height_cm={height_cm} className="fi fi-ss-person-simple"></StyledPerson>
+        <StyledBox $gender={gender}>
+            <StyledPerson $skincolor={skincolor} $height_cm={height_cm} className="fi fi-ss-person-simple"></StyledPerson>
         </StyledBox>
     )
        

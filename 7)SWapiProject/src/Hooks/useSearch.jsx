@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import baseApiUrl from "../constants/apiConsts";
 
 export default function useSearch() {
     const [searchText, setSearchText] = useState("");
@@ -12,7 +13,7 @@ export default function useSearch() {
         setLoading(true);
         fetch(searchNext
             ? nextUrl
-            : `https://swapi.dev/api/people/?search=${searchText}`
+            : `${baseApiUrl}/people/?search=${searchText}`
         )
         .then((e) => e.json())
         .then((res) => {

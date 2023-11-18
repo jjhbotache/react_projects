@@ -15,11 +15,11 @@ min-width: 3rem;
 border-radius: 5%;
 margin-right: 1rem ;
 ${(props)=>{
-    return props.gender==="male" ? `   
+    return props.$gender==="male" ? `   
     border: 0.1rem solid ${maleColor};
     box-shadow: 0 0 0.5rem ${maleColor};
     `:
-    props.gender === "female" ? `
+    props.$gender === "female" ? `
     border: 0.1rem solid ${femaleColor};
     box-shadow: 0 0 0.5rem ${femaleColor};
     `:
@@ -41,9 +41,9 @@ position: relative;
     top: 50%;
     left: 50%;
     /* according to the height, shos the person taller or shorter */
-    transform: translate(-45%, ${ props => props.height_cm 
-        ?`${  (avgHeight-(props.height_cm>minHegiht
-                        ?props.height_cm<maxHeight?props.height_cm
+    transform: translate(-45%, ${ props => props.$height_cm 
+        ?`${  (avgHeight-(props.$height_cm>minHegiht
+                        ?props.$height_cm<maxHeight?props.$height_cm
                         :maxHeight
                     :minHegiht
                     ))
@@ -52,6 +52,6 @@ position: relative;
     });
 
     font-size: 3rem;
-    color: ${props=>props.skincolor || "#fff"};
+    color: ${props=>props.$skincolor || "#fff"};
 }
 `;

@@ -2,7 +2,7 @@ import { SearchContainer } from "./customStyles"
 
 export default function Search({value, onChange, suggestions, above}) {
     return(
-        <SearchContainer above={above}>
+        <SearchContainer $above={above}>
             <h1>STAR WARS</h1>
             <div>
                 <input list="suggestions" type="text" value={value} onChange={onChange} />

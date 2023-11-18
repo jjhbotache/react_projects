@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import baseApiUrl from "../constants/apiConsts";
 
 export default function useSWCharacters() {
     const [loading, setLoading] = useState(false);
@@ -9,7 +10,7 @@ export default function useSWCharacters() {
         if(loading) return;
         console.log("loading page "+page);
         setLoading(true);
-        fetch("https://swapi.dev/api/people/?page="+page)
+        fetch(baseApiUrl+"/people/?page="+page)
         .then((e) => e.json())
         .then((res) => {
             setPage(page+1);    
