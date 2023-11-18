@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
-import { getIdFromLink, getImg } from "../../functions/functions";
+import getImg from "../../functions/getImageFromPixabay.jsx";
+import { getIdFromLink } from "../../functions/stringEditors.jsx";
+
+// styled components
 import { CharacterContainer, CharacterImg, LinksContainer, SpecialLink } from "./customStyles.jsx";
 
 export default function Character() {

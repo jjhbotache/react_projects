@@ -21,8 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <App />,
-    errorElement: <App/>,
+    element: <h1>Hola, no existe esta ruta</h1>,
   }
   
 ]);
@@ -32,7 +31,7 @@ function gettingNames(){
   try {names = JSON.parse(localStorage.getItem("charactersName")).charactersNames.length;} 
   catch (error) {console.log("no names: ",error);}
 
-  if (localStorage.getItem("charactersName") && names < 82){
+  if (localStorage.getItem("charactersName") && names < 80){
     const data = JSON.parse(localStorage.getItem("charactersName"));
     fetch(`https://swapi.dev/api/people/?page=${data.maxPageSearched + 1}`)
     .then((e) => e.json())
@@ -57,8 +56,8 @@ gettingNames();
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <React.StrictMode>
-    <GlobalStyles/>
-    <RouterProvider router={router} />
-  </React.StrictMode>,
+  <>
+  <GlobalStyles/>
+  <RouterProvider router={router} />
+  </>,
 )

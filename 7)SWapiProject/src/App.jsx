@@ -4,26 +4,28 @@ import { StyledSection } from "./customStyles";
 import Search from "./Components/Search/Search";
 import InfinySpinner from "./Components/InfinySpinner/InfinySpinner";
 import { useNavigate } from "react-router-dom";
+import useSWCharacters from "./Hooks/useSWCharacters";
+import useSearch from "./Hooks/useSearch";
 
   
 export default function App() {
-  const [nextUrl, setNextUrl] = useState("");
   const [cToRender, setCToRender] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [searchBar, setSearchBar] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [above, setAbove] = useState((document.documentElement.scrollTop > 15).toString() || "false");
+  const { loading:searchLoading, searchText, setSearchText, results, search } = useSearch();
+  
   const navigate = useNavigate();
 
+  const { loading, characters, loadCharacters } = useSWCharacters();
+
+  console.log("loading: "+loading);
+  
+
   useEffect(() => {
-    fetch("https://swapi.dev/api/people")
-      .then((e) => e.json())
-      .then((res) => {
-        setNextUrl(res.next);
-        setCToRender(res.results);
-      })
-      .catch((error) => console.error("Error fetching initial data:", error))
-      .finally(() => setIsLoading(false));
+    loadCharacters();
+
+    
+    
     let interval;
     if(JSON.parse(localStorage.getItem("charactersName")).charactersNames.length <= 82 ){
     setSuggestions(JSON.parse(localStorage.getItem("charactersName")).charactersNames);
@@ -31,38 +33,10 @@ export default function App() {
       setSuggestions(JSON.parse(localStorage.getItem("charactersName")).charactersNames);
     }, 10000);
     }
-    
-    return () => clearInterval(interval);
+
+    return () => {clearInterval(interval)}
   }, []);
 
-  useEffect(() => {
-    console.log(cToRender);
-    function newFetch() {
-      setIsLoading(true);
-      fetch(nextUrl)
-        .then((e) => e.json())
-        .then((res) => {
-          setNextUrl(res.next);
-          setCToRender([...cToRender, ...res.results]);
-        })
-        .catch((error) => console.error("Error fetching additional data:", error))
-        .finally(() => setIsLoading(false));
-    }
-    handleScroll();
-    function handleScroll(e) {
-      console.log(document.documentElement.scrollTop);
-      
-      setAbove((document.documentElement.scrollTop > 15).toString());
-      if(window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 300 && !isLoading)
-      {
-        newFetch();
-        console.log("fetching new data");
-      }
-    }
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {window.removeEventListener("scroll", handleScroll);};
-  }, [cToRender,isLoading,nextUrl]);
 
   function onSeeDatils(event,character) {
     event.preventDefault();
@@ -71,36 +45,39 @@ export default function App() {
     navigate("/character");
   }
 
-  useEffect(()=>{
-    function search(){
-      if(isLoading) return;
-      console.log("searching");
-      setIsLoading(true);
-      fetch(`https://swapi.dev/api/people${searchBar?`/?search=${searchBar}`:""}`)
-      .then((e) => e.json())
-      .then((res) => {
-        setNextUrl(res.next);
-        setCToRender(res.results);
-      })
-      .finally(() => setIsLoading(false));
+
+  useEffect(() => {
+    setCToRender(searchText
+      ?results
+      :characters
+    );
+  }, [characters, results]);
+
+  useEffect(() => {
+    function handleScroll() {
+      setAbove((document.documentElement.scrollTop > 15).toString());
+      if(window.innerHeight + document.documentElement.scrollTop >= document.documentElement.offsetHeight - 300 &&
+        (!loading && !searchLoading)
+      ){
+        searchText
+        ?search(true)
+        :loadCharacters();
+      }
     }
-
-    const debounce = setTimeout(search, 500);
-
-    return () => clearTimeout(debounce);
-  },[searchBar])  
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading, searchLoading, searchText]);
 
   
   
-
   return (
     <>
-      <Search value={searchBar} onChange={(e) => setSearchBar(e.target.value)} suggestions={suggestions} above={above}/>
+      <Search value={searchText} onChange={(e) => setSearchText(e.target.value)} suggestions={suggestions} above={above}/>
       <div>
         <StyledSection>
-          {cToRender.map((c) => <SWcard key={c.url} character={c} onSeeDatils={onSeeDatils}/>)}
+          {cToRender?.map((c) => <SWcard key={c.url} character={c} onSeeDatils={onSeeDatils}/>)}
         </StyledSection>
-        {isLoading && <InfinySpinner/>}
+        {(loading || searchLoading) && <InfinySpinner/>}
       </div>
     </>
   );

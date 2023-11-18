@@ -52,6 +52,6 @@ position: relative;
     });
 
     font-size: 3rem;
-    color: ${props=>props.skinColor || "#fff"};
+    color: ${props=>props.skincolor || "#fff"};
 }
 `;
