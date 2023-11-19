@@ -1,9 +1,19 @@
 import { Link } from "react-router-dom";
 import Person from "../../Components/Person/Person.jsx";
 import { StyledArticle, StyledInfo } from "./customStyles.jsx";
-export default function SWcard({character:c, onSeeDatils}) {
+// navigate
+import { useNavigate } from "react-router-dom";
+import { getIdFromLink } from "../../functions/stringEditors.jsx";
+
+export default function SWcard({character:c}) {
+    const navigate = useNavigate();
+
+    function onSeeDetails(character) {
+        navigate("/character/"+getIdFromLink(character.url));
+    }
+
     return(
-        <StyledArticle onClick={e=>(onSeeDatils(e,c))}>
+        <StyledArticle onClick={e=>(onSeeDetails(c))}>
             <h6>{c.name}</h6>
             <StyledInfo>
                 <Person character={c}/>

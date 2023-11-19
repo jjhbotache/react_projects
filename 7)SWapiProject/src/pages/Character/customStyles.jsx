@@ -7,8 +7,8 @@ export const CharacterContainer = styled.div`
     height: 100vh;
     width: 100vw;
     flex-wrap: wrap;
-    padding: 2rem;
-    gap: 2rem;
+    padding: .5rem;
+    gap: 3rem;
 
 
     & p{
@@ -72,3 +72,18 @@ export const SpecialLink = styled.a`
         height: auto;
     }
 `;  
+
+export const InfoContainer = styled.div`
+    width: 70vh;
+    height: 95vh;
+    overflow-y: scroll; 
+    display: grid;
+    place-items: center;
+
+    & img{
+        width: 100%;
+        height: auto;
+        display: block;
+        margin: auto;
+    }
+`;

@@ -16,7 +16,7 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: "/character",
+    path: "/character/:id",
     element: <Character/>,
   },
   {
@@ -25,8 +25,6 @@ const router = createBrowserRouter([
   }
   
 ]);
-
-
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <>

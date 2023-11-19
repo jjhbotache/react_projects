@@ -66,7 +66,7 @@ export default function App() {
       <Search value={searchText} onChange={(e) => setSearchText(e.target.value)} suggestions={suggestions} above={isAbove}/>
       <div>
         <StyledSection>
-          {cToRender?.map((c) => <SWcard key={c.url} character={c} onSeeDatils={onSeeDatils}/>)}
+          {cToRender?.map((c) => <SWcard key={c.url} character={c}/>)}
         </StyledSection>
         {(loading || searchLoading) && <InfinySpinner/>}
       </div>
