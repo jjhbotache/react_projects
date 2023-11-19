@@ -4,6 +4,7 @@ import App from './App.jsx'
 import './index.css'
 import {
   createBrowserRouter,
+  Link,
   RouterProvider,
 } from "react-router-dom";
 import Character from './pages/Character/Character.jsx'
@@ -21,7 +22,10 @@ const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <h1>Hola, no existe esta ruta</h1>,
+    element: <>
+    <h1>Ups, no existe esta ruta</h1>
+    <Link to="/">Volver al inicio</Link>
+    </>,
   }
   
 ]);
