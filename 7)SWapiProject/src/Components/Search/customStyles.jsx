@@ -24,12 +24,14 @@ export const SearchContainer = styled.div`
     justify-content: center;
     align-items: center;
 
+
     transition: all 0.2s ease-in;
 
     & h1{
         font-size: 3rem;
         color: #ffff00;
         text-shadow: 0px 0px 5px #ffff00;
+        text-align: center;
     }
 
     & input{
